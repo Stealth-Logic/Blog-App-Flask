@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- {# Specifies the document type and version of HTML (HTML5) #} -->
+    <!-- {# Specifies the character encoding for the document, ensuring proper text display #} -->
+    <meta charset="UTF-8"> 
+    <!-- {# Configures the viewport for responsive design #} -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- {# Sets the title that appears in the browser tab or window title bar #} -->
+    <title>BLOGGER</title> 
+    <!-- {# Links an external CSS stylesheet to style the page #}
+    {# url_for('static', filename='style.css') is a Flask/Jinja2 function that generates the correct URL #}
+    {# for static files (like CSS, JavaScript, images) located in the 'static' folder. #}
+    {# This is more robust than a hardcoded path. #} -->
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <!-- {# Navigation bar section #} -->
+    <nav>
+        <!-- {# Logo section of the navigation bar #} -->
+        <div class="logo">
+            <!-- {# Main title/logo of the blog #} -->
+            <h1>BLOGGER</h1>
+        </div>
+        <!-- {# Navigation links section #} -->
+        <div class="content">
+            <ul>
+                <!-- {# Navigation link to the blog homepage #}
+                {# url_for('index') generates the URL for the Flask function named 'index' (which is '/') #} -->
+                <a href="{{url_for('index')}}"><li>Blog</li></a>
+                <!-- {# Navigation link to the create new post page #}
+                {# url_for('create') generates the URL for the Flask function named 'create' (which is '/create') #} -->
+                <a href="{{url_for('create')}}"><li>Create</li></a>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- {# Main content area where blog posts and messages will be displayed #} -->
+    <div class="main-content">
+        <!-- {# --- Jinja2 Block: Display Flash Messages --- #}
+        {# 'with' statement creates a new scope and assigns the result of get_flashed_messages to 'messages' #}
+        {# get_flashed_messages(with_categories=true) retrieves all messages flashed from the Flask backend #} -->
+        <!-- {# 'with_categories=true' ensures that messages come with their associated category (e.g., 'success', 'error') #} -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- {# Check if there are any messages to display #} -->
+            {% if messages %}
+                <!-- {# Unordered list to hold the flash messages. 'flashes' class for CSS styling. #} -->
+                <ul class="flashes">
+                <!-- {# Loop through each message in the 'messages' list #}
+                {# Each message is a tuple (category, message_text) #} -->
+                {% for category, message in messages %}
+                    {# Create a list item for each message #}
+                    <!-- {# The 'class="{{ category }}"' applies a CSS class based on the message's category #} -->
+                    <!-- {# (e.g., <li class="error"> or <li class="success">), allowing for different styling. #} -->
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- {# HTML Comment: This section will dynamically display the blog posts #} -->
+        
+        
+        <!-- {# Heading for the blog posts section #} -->
+        <h2>All Blog Posts</h2>
+
+        <!-- {# Jinja2 Conditional Block: Check if the 'posts' list (passed from app.py) is not empty #} -->
+        {% if posts %}
+            <!-- {# Jinja2 Loop: Iterate over each 'post' dictionary within the 'posts' list #} -->
+            {% for post in posts %}
+                <!-- {# Container for an individual blog post, allowing for specific styling #} -->
+                <div class="blog-post">
+                    {# Div for the blog post's title #}
+                    <div class="blog-title">
+                        <!-- {# Display the title of the current post #} -->
+                        <h3>{{post.title}}</h3>
+                    </div>
+                    <!-- {# Div for the blog post's content #} -->
+                    <div class="blog-contents">
+                        <!-- {# Display the content of the current post #} -->
+                        <p>{{post.content}}</p>
+                    </div>
+                    <!-- {# Display the unique ID of the post (useful for debugging or future features) #} -->
+                    <small>Post ID: {{post.id}}</small>
+                    <!-- {# Horizontal rule to visually separate individual posts #} -->
+                    <hr> 
+                </div>
+            {% endfor %}
+        <!-- {# If the 'posts' list is empty (no blog posts yet) #} -->
+        {% else %}
+            <!-- {# Display a message indicating no posts are found and a link to create one #} -->
+            <p>NO BLOG POSTS FOUND. BE THE FIRST TO <a href="{{url_for('create')}}">CREATE ONE</a></p>
+        {% endif %} {# Closes the {% if posts %} block #}
+        <!-- {# Closes the main-content div #} -->
+    </div> 
+
+</body>
+</html>

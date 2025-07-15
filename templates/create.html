@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <form method="POST" action="/create">
+        {# --- ADD THIS BLOCK HERE TO DISPLAY FLASH MESSAGES --- #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <label for="input-title">BLOG TITLE:</label>
+    <input type="text" name="blog_title" placeholder="Enter Blog Title Here " id="input-title">
+    <label for="txtarea-blog">BLOG CONTENTS</label>
+    <textarea name="blog_contents" id="txtarea-blog" placeholder="Type your blog contents here" class="input-blog"></textarea>
+
+    <button type="submit" class="submit_button">Publish Blog</button>
+    </form>
+</body>
+</html>
