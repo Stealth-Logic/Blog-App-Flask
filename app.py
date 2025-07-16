@@ -1,4 +1,5 @@
 from flask import Flask,flash,redirect,request,url_for,jsonify,render_template
+from flask_sqlalchemy import SQLAlchemy
 
 # Initialize the Flask application
 # __name__ is a special Python variable that gets the name of the current module.
@@ -19,6 +20,13 @@ posts=[]
 # A global variable to assign unique IDs to new blog posts.
 # It starts at 1 and increments with each new post.
 next_post_id=1
+
+# connecting to the database from here
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flask_user:Anshul@2006@localhost/flask_blog_db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
+
+# initializing databse here
+# db=SQLAlchemy(app)
 
 # Define the route for the homepage ("/") of the application.
 # When a user navigates to the root URL, this function will be executed.
